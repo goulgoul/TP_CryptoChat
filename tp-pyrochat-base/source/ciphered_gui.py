@@ -7,11 +7,6 @@ from generic_callback import GenericCallback
 
 from basic_gui import DEFAULT_VALUES, BasicGUI
 
-DEFAULT_VALUES = {
-        "host" : "127.0.0.1",
-        "port" : "6666",
-        "name" : "foo"
-        }
 
 class CipheredGUI(BasicGUI):
     """Encrypted GUI for chat client""" 
