@@ -76,7 +76,8 @@ class BasicGUI:
         # callback used by the menu to display connection windows
         dpg.show_item("connection_windows")
 
-    def run_chat(self, sender, app_data)->None:
+    # def run_chat(self, sender, app_data)->None:
+    def run_chat(self)->None:
         # callback used by the connection windows to start a chat session
         host = dpg.get_value("connection_host")
         port = int(dpg.get_value("connection_port"))

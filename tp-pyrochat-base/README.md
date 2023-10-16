@@ -18,7 +18,7 @@ Même si la base du TP se fera à partir de source/basic_gui.py, soyez curieux !
 
 Le code devra respecter un certain nombre de règles (arbitraires) pour ne pas perdre de point :
 
-- Le code doit être commenter
+- Le code doit être commenté
 - Les noms des fonctions et de variables s'écrivent en en snake case (nom_de_fonction)
 - Les noms de constantes s'écrivent en snake case majuscule (NOM_DE_CONSTANTES)
 - Les noms de classe s'écrivent en camel case (MaClass)
