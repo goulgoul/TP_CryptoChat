@@ -51,12 +51,18 @@ class CipheredGUI(BasicGUI):
         return
 
     def encrypt(self, message) -> None:
-        payload = self._encryptor.update(bytes(message, 'utf-8')) + self._encryptor.finalize()
+        payload = self._encryptor.update(bytes(message, 'utf-8'))
         return payload
 
     def decrypt(self, payload) -> None:
-        message = self._decryptor.update(payload) + self._decryptor.finalize()
+        message = self._decryptor.update(payload)
         return str(message, 'utf-8')
+
+    def send(self, message) -> None:
+        super().send(self.encrypt(message))
+
+
+
 
 if __name__ == "__main__":
     client = CipheredGUI()
