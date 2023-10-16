@@ -29,7 +29,8 @@ class CipheredGUI(BasicGUI):
             
             dpg.add_button(label="Connect", callback=self.run_chat)
 
-
+    def run_chat(self) -> None:
+        password = dpg.get_value("connection_password")
 
 if __name__ == "__main__":
     client = CipheredGUI()
