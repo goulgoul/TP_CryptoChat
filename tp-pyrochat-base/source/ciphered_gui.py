@@ -1,14 +1,24 @@
 from logging import warn
-import os
 import dearpygui.dearpygui as dpg
+import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes
 
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from chat_client import ChatClient
-from generic_callback import GenericCallback
-
+# from chat_client import ChatClient
+# from generic_callback import GenericCallback
+import serpent
 from basic_gui import DEFAULT_VALUES, BasicGUI
+
+IV_LENGTH = 16
+KEY_LENGTH = 16
+KDF_NB_ITERATIONS = 480000
+KDF = PBKDF2HMAC(
+        algorithm = hashes.SHA256(),
+        length = KEY_LENGTH,
+        salt = b'oskour',
+        iterations = KDF_NB_ITERATIONS
+        )
 
 
 class CipheredGUI(BasicGUI):
@@ -16,9 +26,7 @@ class CipheredGUI(BasicGUI):
     def __init__(self) -> None:
         # Constructor
         super().__init__()
-        self._key = None
-        self._encryptor = None
-        self._decryptor = None
+        self._key = b""
 
     def _create_connection_window(self) -> None:
         # Connection window
@@ -36,33 +44,25 @@ class CipheredGUI(BasicGUI):
 
     def run_chat(self) -> None:
         password = dpg.get_value("connection_password")
-        kdf = PBKDF2HMAC(
-        algorithm = hashes.SHA256(),
-        length = 16,
-        salt = b'oskour',
-        iterations = 480000,
-        )
-        self._key = kdf.derive(bytes(password, 'utf-8'))
-        iv = os.urandom(16)
-        cipher = Cipher(algorithms.AES128(self._key), modes.CBC(iv))
-        self._encryptor = cipher.encryptor()
-        self._decryptor = cipher.decryptor()
+        self._key = KDF.derive(bytes(password, 'utf-8'))
         super().run_chat()
-        return
 
-    def encrypt(self, message) -> None:
-        payload = self._encryptor.update(bytes(message, 'utf-8'))
-        return payload
+    def encrypt(self, message):
+        iv = os.urandom(IV_LENGTH)
+        cipher = Cipher(algorithms.AES128(self._key), modes.CTR(iv))
+        encryptor = cipher.encryptor() 
+        payload = encryptor.update(bytes(message, 'utf-8')) + encryptor.finalize()
+        return (payload, iv)
 
-    def decrypt(self, payload) -> None:
-        message = self._decryptor.update(payload)
+    def decrypt(self, frame):
+        payload, iv = frame
+        cipher = Cipher(algorithms.AES128(self._key), modes.CTR(iv))
+        decryptor = cipher.decryptor()
+        message = decryptor.update(payload) + decryptor.finalize()
         return str(message, 'utf-8')
 
-    def send(self, message) -> None:
-        super().send(self.encrypt(message))
-
-
-
+    
+        
 
 if __name__ == "__main__":
     client = CipheredGUI()
