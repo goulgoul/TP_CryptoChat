@@ -1,4 +1,4 @@
-from logging import warn
+from logging import log, warn
 import dearpygui.dearpygui as dpg
 import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -45,23 +45,42 @@ class CipheredGUI(BasicGUI):
     def run_chat(self) -> None:
         password = dpg.get_value("connection_password")
         self._key = KDF.derive(bytes(password, 'utf-8'))
-        super().run_chat()
+        super().run_chat(None, None)
 
-    def encrypt(self, message):
+    def encrypt(self, message: str):
         iv = os.urandom(IV_LENGTH)
         cipher = Cipher(algorithms.AES128(self._key), modes.CTR(iv))
         encryptor = cipher.encryptor() 
         payload = encryptor.update(bytes(message, 'utf-8')) + encryptor.finalize()
-        return (payload, iv)
+        return (iv, payload)
 
-    def decrypt(self, frame):
-        payload, iv = frame
+    def decrypt(self, frame: tuple[bytes, bytes]):
+        iv, payload = frame
         cipher = Cipher(algorithms.AES128(self._key), modes.CTR(iv))
         decryptor = cipher.decryptor()
         message = decryptor.update(payload) + decryptor.finalize()
         return str(message, 'utf-8')
 
-    
+    def send(self, message: str) -> None:
+        if message != "": print("SEND FUNCTION")
+        frame = self.encrypt(message)
+        # frame = (serpent.tobytes(frame[0]), serpent.tobytes(frame[1]))
+        super().send(frame)
+
+    def recv(self) -> None:
+        # function called to get incoming messages and display them
+        if self._callback is None:
+            return
+
+        for user, frame in self._callback.get():
+            print("RECIEVE FUNCTION")
+            # print(serpent.loads(frame)) # ERROR
+            # print(serpent.tobytes(frame)) # ERROR
+            frame_TB = (serpent.tobytes(frame[0]), serpent.tobytes(frame[1]))
+            message = self.decrypt(frame_TB)
+            self.update_text_screen(f"{user} : {message}")
+        self._callback.clear()
+
         
 
 if __name__ == "__main__":

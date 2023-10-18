@@ -22,7 +22,7 @@ class ChatServer(object):
 
     @expose
     def send_message(self, user, message):
-        self._log.info(f"{user} send message : {message}")
+        self._log.info(f"{user} sent message : {message}")
         for register_user in list(self._buffer):
             if user != register_user:
                 try:
@@ -30,9 +30,9 @@ class ChatServer(object):
                     # mandatory to prevent crash about ownership
                     callbackhandler._pyroClaimOwnership() 
                     callbackhandler.recv(user, message)
-                    self._log.info(f"message send to {register_user}")
+                    self._log.info(f"message sent to {register_user}")
                 except ConnectionClosedError:
-                    self._log.info(f"remove user {register_user} (disconnected)")
+                    self._log.info(f"removed user {register_user} (disconnected)")
                     del self._buffer[register_user] 
 
 
@@ -44,7 +44,7 @@ if __name__=="__main__":
     except:
         host = "127.0.0.1"
 
-    print(f"Bind on {host}:{PORT}")   
+    print(f"Bound on {host}:{PORT}")   
     with Daemon(host=host, port=6666) as daemon:
         uri = daemon.register(ChatServer, "ChatServer")      
         daemon.requestLoop()
