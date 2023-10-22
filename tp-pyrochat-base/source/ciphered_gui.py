@@ -1,4 +1,3 @@
-from logging import log, warn
 import dearpygui.dearpygui as dpg
 import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -27,7 +26,7 @@ class CipheredGUI(BasicGUI):
         # Constructor
         super().__init__()
         self._key = b""
-
+        self._password = ""
     def _create_connection_window(self) -> None:
         # Connection window
         with dpg.window(label="Connection", pos=(200, 150), width=400, height=300, show=False, tag="connection_windows"):
@@ -43,8 +42,8 @@ class CipheredGUI(BasicGUI):
             dpg.add_button(label="Connect", callback=self.run_chat)
 
     def run_chat(self) -> None:
-        password = dpg.get_value("connection_password")
-        self._key = KDF.derive(bytes(password, 'utf-8'))
+        self._password = dpg.get_value("connection_password")
+        self._key = KDF.derive(bytes(self._password, 'utf-8'))
         super().run_chat(None, None)
 
     def encrypt(self, message: str):
