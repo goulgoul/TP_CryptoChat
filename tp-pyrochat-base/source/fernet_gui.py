@@ -1,3 +1,4 @@
+import base64
 from ciphered_gui import CipheredGUI
 from cryptography import fernet
 from cryptography.hazmat.primitives.hashes import Hash, SHA256 
@@ -9,11 +10,12 @@ class FernetGUI(CipheredGUI):
 
 
     def run_chat(self) -> None:
-        key = Hash(SHA256())
-        key.update(super()._password)
-        key.finalize()
-        print(key)
-        super().run_chat(None, None)
+        digest = Hash(SHA256())
+        digest.update(bytes(self._password, 'utf-8'))
+        self._key = base64.b64encode(digest.finalize())
+        super().run_chat()
+    
+    def encrypt(self, message: str) -> 
 
 if __name__ == "__main__":
     client = FernetGUI()
