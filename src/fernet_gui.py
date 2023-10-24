@@ -12,7 +12,7 @@ class FernetGUI(CipheredGUI):
     def run_chat(self) -> None:
         digest = Hash(SHA256())
         digest.update(bytes(self._password, 'utf-8'))
-        self._key = base64.b64encode(digest.finalize())
+        self._key = base64.urlsafe_b64encode(digest.finalize())
         super().run_chat()
     
     def encrypt(self, message: str):
