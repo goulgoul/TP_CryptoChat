@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['on_5fclose_0',['on_close',['../classbasic__gui_1_1BasicGUI.html#a129abad23023f3998ee8500e2f8ec355',1,'basic_gui::BasicGUI']]]
+  ['name_0',['name',['../namespacechat__client.html#ab74e6bf80237ddc4109968cedc58c151',1,'chat_client']]]
 ];

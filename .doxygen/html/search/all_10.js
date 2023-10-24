@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['send_0',['send',['../classbasic__gui_1_1BasicGUI.html#ac45f1549c42cbe73c0480caf38da8c01',1,'basic_gui.BasicGUI.send()'],['../classciphered__gui_1_1CipheredGUI.html#a55ebc22aac826cff2e3badac1234a138',1,'ciphered_gui.CipheredGUI.send()']]],
-  ['send_5fmessage_1',['send_message',['../classchat__client_1_1ChatClient.html#a32353b914536618612d85199ae2dffec',1,'chat_client.ChatClient.send_message()'],['../classchat__server_1_1ChatServer.html#ae9614a8fe4f12462d4754851b7bc9491',1,'chat_server.ChatServer.send_message()']]],
-  ['start_2',['start',['../classchat__client_1_1ChatClient.html#aebda011ab2d5e42f0f0fd59d33fc0da8',1,'chat_client::ChatClient']]],
-  ['stop_3',['stop',['../classchat__client_1_1ChatClient.html#af6b4aca90a902cb10bf62e7d64a2cedf',1,'chat_client::ChatClient']]]
+  ['recv_0',['recv',['../classbasic__gui_1_1BasicGUI.html#a03ec80a69ae7bf8c33eb504ac276982f',1,'basic_gui.BasicGUI.recv()'],['../classciphered__gui_1_1CipheredGUI.html#a55640b2243abafe1263d9488d9a34217',1,'ciphered_gui.CipheredGUI.recv()'],['../classfernet__gui_1_1FernetGUI.html#a55640b2243abafe1263d9488d9a34217',1,'fernet_gui.FernetGUI.recv()'],['../classgeneric__callback_1_1GenericCallback.html#a8b697322a5fcda363f77c15da8d6ca18',1,'generic_callback.GenericCallback.recv()']]],
+  ['register_1',['register',['../classchat__client_1_1ChatClient.html#a2883058bda70d9265eef672c3827ce54',1,'chat_client.ChatClient.register()'],['../classchat__server_1_1ChatServer.html#afa0a64658063f37f1a620dea20aa8805',1,'chat_server.ChatServer.register()']]],
+  ['run_5fchat_2',['run_chat',['../classbasic__gui_1_1BasicGUI.html#a6081baa41d46b87d6105410604086f62',1,'basic_gui.BasicGUI.run_chat()'],['../classciphered__gui_1_1CipheredGUI.html#a8b2aff6452cdaa196cb09905ef620a7f',1,'ciphered_gui.CipheredGUI.run_chat()'],['../classfernet__gui_1_1FernetGUI.html#a8b2aff6452cdaa196cb09905ef620a7f',1,'fernet_gui.FernetGUI.run_chat()']]]
 ];

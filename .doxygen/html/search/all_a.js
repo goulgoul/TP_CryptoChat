@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['level_0',['level',['../namespacebasic__gui.html#afde8e18a788ccc92fc61cab298bca7e3',1,'basic_gui.level'],['../namespacechat__client.html#afde8e18a788ccc92fc61cab298bca7e3',1,'chat_client.level'],['../namespacechat__server.html#afde8e18a788ccc92fc61cab298bca7e3',1,'chat_server.level']]],
-  ['loop_1',['loop',['../classbasic__gui_1_1BasicGUI.html#ad85425a6a48afcdb82e3857451125d05',1,'basic_gui::BasicGUI']]]
+  ['kdf_0',['KDF',['../namespaceciphered__gui.html#adf5f159f56fdce8fe24aabfc996d4eda',1,'ciphered_gui']]],
+  ['kdf_5fnb_5fiterations_1',['KDF_NB_ITERATIONS',['../namespaceciphered__gui.html#a7f007292ca43604df0cc5ee4952ecbd1',1,'ciphered_gui']]],
+  ['key_5flength_2',['KEY_LENGTH',['../namespaceciphered__gui.html#aad2d3625ccc3cc804d0aba02cc25355c',1,'ciphered_gui']]]
 ];

@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['host_0',['host',['../namespacechat__client.html#a832ddc04754e8a43d4f3c6165b1294a7',1,'chat_client.host'],['../namespacechat__server.html#a367322a96dfdb29b85955815523a0a8c',1,'chat_server.host']]]
+  ['generic_5fcallback_0',['generic_callback',['../namespacegeneric__callback.html',1,'']]],
+  ['generic_5fcallback_2epy_1',['generic_callback.py',['../generic__callback_8py.html',1,'']]],
+  ['genericcallback_2',['GenericCallback',['../classgeneric__callback_1_1GenericCallback.html',1,'generic_callback']]],
+  ['get_3',['get',['../classgeneric__callback_1_1GenericCallback.html#aa75d5f85c31b422e7a2aadf7f3453c33',1,'generic_callback::GenericCallback']]]
 ];
