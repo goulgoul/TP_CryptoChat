@@ -34,9 +34,6 @@ class FernetGUI(CipheredGUI):
         digest.update(bytes(self._password, 'utf-8'))
         key = digest.finalize()
         self._key = base64.urlsafe_b64encode(key)
-        print(self._password)
-        print(self._key)
-        print(base64.urlsafe_b64decode(self._key))
         
     
     def encrypt(self, message: str):
@@ -58,7 +55,6 @@ class FernetGUI(CipheredGUI):
             return
 
         for user, frame in self._callback.get():
-            print(frame)
             message = self.decrypt(serpent.tobytes(frame))
             self.update_text_screen(f"{user} : {message}")
         self._callback.clear()
