@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['port_0',['port',['../namespacechat__client.html#a78dc8eaa9905715367e9beb76bf4b5f7',1,'chat_client.PORT'],['../namespacechat__server.html#a78dc8eaa9905715367e9beb76bf4b5f7',1,'chat_server.PORT'],['../namespacechat__server.html#af8fb0f45ee0195c7422a49e6a8d72369',1,'chat_server.port']]]
+  ['on_5fclose_0',['on_close',['../classbasic__gui_1_1BasicGUI.html#a129abad23023f3998ee8500e2f8ec355',1,'basic_gui::BasicGUI']]]
 ];

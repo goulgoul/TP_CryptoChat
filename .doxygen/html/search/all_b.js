@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['name_0',['name',['../namespacechat__client.html#ab74e6bf80237ddc4109968cedc58c151',1,'chat_client']]]
+  ['mainpage_0',['mainpage',['../md_mainpage.html',1,'']]],
+  ['mainpage_2emd_1',['mainpage.md',['../mainpage_8md.html',1,'']]]
 ];
