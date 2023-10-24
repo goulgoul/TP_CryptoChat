@@ -78,6 +78,7 @@ class CipheredGUI(BasicGUI):
         self._password = dpg.get_value("connection_password")
         self._key = KDF.derive(bytes(self._password, 'utf-8'))
         super().run_chat(None, None)
+
     """
     @fn encrypt()
     @brief A function for message encryption
@@ -89,29 +90,36 @@ class CipheredGUI(BasicGUI):
         encryptor = cipher.encryptor() 
         payload = encryptor.update(bytes(message, 'utf-8')) + encryptor.finalize()
         return (iv, payload)
-
+    
+    """@fn decrypt()
+    @brief A function for message decryption
+    @param frame A tuple containing an encrypted message and an IV to help decrypt it
+    """
     def decrypt(self, frame: tuple[bytes, bytes]) -> str:
         iv, payload = frame
         cipher = Cipher(algorithms.AES128(self._key), modes.CTR(iv))
         decryptor = cipher.decryptor()
         message = decryptor.update(payload) + decryptor.finalize()
         return str(message, 'utf-8')
-
+    
+    """
+    @fn send()
+    @brief A function that sends messages from the GUI to the server; it requires the encrypt function to send encrypted messages.
+    @param message The string input by the user, that has to be transmitted to the receiver
+    """
     def send(self, message: str) -> None:
-        if message != "": print("SEND FUNCTION")
         frame = self.encrypt(message)
-        # frame = (serpent.tobytes(frame[0]), serpent.tobytes(frame[1]))
         super().send(frame)
-
+    
+    """@fn recv()
+    @brief A function run periodically by the chat client class; it allows messages to be received, whatever their nature.
+    This function does not require any parameter, but the input messages have to be of the same type as those sent by send().
+    """
     def recv(self) -> None:
-        # function called to get incoming messages and display them
         if self._callback is None:
             return
 
         for user, frame in self._callback.get():
-            print("RECIEVE FUNCTION")
-            # print(serpent.loads(frame)) # ERROR
-            # print(serpent.tobytes(frame)) # ERROR
             frame_TB = (serpent.tobytes(frame[0]), serpent.tobytes(frame[1]))
             message = self.decrypt(frame_TB)
             self.update_text_screen(f"{user} : {message}")
