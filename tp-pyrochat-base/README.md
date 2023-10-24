@@ -59,6 +59,7 @@ Vous aurez alors un serveur fonctionnel et deux clients graphiques. Connectez vo
 
 ## Chiffrement
 
+
 Dans cette partie, vous allez mettre en place l'algorithme AES (CTR) pour chiffrer la communication entre les différents interlocuteurs. Pour réaliser cela, vous allez vous baser sur la bibliothèque *cryptography*. Elle contients tous les éléments donc vous allez avoir besoins : AES, pkcs7, PBKDF2HMAC. La documentation dispose de toutes les informations nécessaires ainsi que des exemples pour vous aider.
 
 Vous aurez à dériver la classe BasicGUI pour créer la classe CipheredGUI. Il vous faudra faire les modifications suivantes :
@@ -109,5 +110,5 @@ Dérivé la classe FernetGUI en TimeFernetGUI et utiliser les fonctions encrypt_
 ## Regard critique
 
 J'ai pris des raccourcis, pris des décisions arbitraires et utilisé des bibliothèques tiers. Ai-je laissé des vulnérabilités ? 
-
+*PAR EXEMPLE LE MANQUE DE TRNG* 
 A vous maintenant de trouver ce qui ne va pas, de justifier votre propos et de proposer une alternative. Ce n'est pas tant la quantité de point que vous trouverez que la pertinence de votre analyse qui vous permettera de décrocher des points.
