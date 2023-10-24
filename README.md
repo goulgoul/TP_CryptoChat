@@ -7,7 +7,7 @@ Les fichiers du TP s'organise comme ceci :
 * source
     * chat_client.py : classe servant le client au chat
     * chat_server.py : classe servant de serveur au chat
-    * generic_callback.py : classe utilisée par le client et envoyé au serveur permettant de récupéré les messages
+    * generic_callback.py : classe utilisée par le client et envoyé au serveur permettant de récupérer les messages
     * basic_gui.py : client graphique du chat, repose du ChatClient
 * ANSWERS.md : contient vos réponses aux questions de TP
 * README.md : donnes les consignes
@@ -21,8 +21,8 @@ Le code devra respecter un certain nombre de règles (arbitraires) pour ne pas p
 - Le code doit être commenté
 - Les noms des fonctions et de variables s'écrivent en en snake case (nom_de_fonction)
 - Les noms de constantes s'écrivent en snake case majuscule (NOM_DE_CONSTANTES)
-- Les noms de classe s'écrivent en camel case (MaClass)
-- Les noms de fichiers reprennent le nom de la classe en snake case minuscule (ma_class)
+- Les noms de classe s'écrivent en camel case (MaClasse)
+- Les noms de fichiers reprennent le nom de la classe en snake case minuscule (ma_classe)
 - Pas de valeurs littérales dans le code, utilisez toujours des constantes pour les expliciter
 - Une classe, un fichier
 - Une fonction ne doit pas dépasser 20 lignes
@@ -52,7 +52,7 @@ Ouvrez trois terminaux et lancez les commandes suivantes :
 
 Vous aurez alors un serveur fonctionnel et deux clients graphiques. Connectez vous (file->connect) en changeant le nom dans les deux clients (défaut : foo) et échangez quelques messages.
 
-1. Comment s'appelle cette topology ?
+1. Comment s'appelle cette topologie ?
 2. Que remarquez vous dans les logs ? 
 3. Pourquoi est-ce un problème et quel principe cela viole t-il ?
 4. Quelle solution la plus **simple** pouvez-vous mettre en place pour éviter cela ? Détaillez votre réponse.
@@ -88,19 +88,19 @@ Points d'attention :
 
 ## Authenticated Symetric Encryption
 
-Pour être sûre que le message n'a pas été altéré, il faut mettre en place un chiffrement avec un HMAC. La bibliothèque *cryptography* contient une solution adaptée : le module Fernet. A partir d'une clef de 32 octets (format base64) il permet de chiffrer/et dechiffrer tout en étant sûr de l'intégrité du message. Pour généré la clef de 32 bits à partir du password, vous pouvez utiliser dans le cadre du TP la fonction de hashage SHA256.
+Pour être sûr que le message n'a pas été altéré, il faut mettre en place un chiffrement avec un HMAC. La bibliothèque *cryptography* contient une solution adaptée : le module Fernet. A partir d'une clef de 32 octets (format base64) il permet de chiffrer/et dechiffrer tout en étant sûr de l'intégrité du message. Pour généré la clef de 32 bits à partir du password, vous pouvez utiliser dans le cadre du TP la fonction de hashage SHA256.
 
 Dérivé la classe CipheredGUI pour créer FernetGUI. La seule modification portera sur la fonction encrypt/decrypt, ainsi que run_chat qui utilisera sha256().digest() + base64.b64encode() au lieu de PBKDF2HMAC.
 
 1. Pourquoi Fernet est moins risqué que le précédent chapitre en terme d'implémentation ?
-2. Un serveur malveillant peut néanmoins attaqué avec des faux messages, déjà utilisé dans le passé. Comment appel t-on cette attaque ?
+2. Un serveur malveillant peut néanmoins attaquer avec des faux messages, déjà utilisé dans le passé. Comment appel t-on cette attaque ?
 3. Quelle méthode **simple** permet de s'en affranchir ?
 
 ## TTL
 
-Vous avez utilisez deux methodes fournie par la classe Fernet : encrypt et decrypt. Un autre jeu de methode permet d'améliorer la robustesse en donnant une durée de vie au message (Time To Live, TTL). Si un message dépasse la durée de vie, il est ignoré au moment du décodage.
+Vous avez utilisé deux methodes fournies par la classe Fernet : encrypt et decrypt. Un autre jeu de methode permet d'améliorer la robustesse en donnant une durée de vie au message (Time To Live, TTL). Si un message dépasse la durée de vie, il est ignoré au moment du décodage.
 
-Dérivé la classe FernetGUI en TimeFernetGUI et utiliser les fonctions encrypt_at_time et decrypt_at_time dans les fonctions encrypt et decrypt, respectivement. Utilisez un TTL de 30 secondes et capturez l'exception potentielle (try/except InvalidToken as e) avec un log d'erreur en cas d'exception. Pour le temps, on utilisera int(time.time()).
+Dérivez la classe FernetGUI en TimeFernetGUI et utiliser les fonctions encrypt_at_time et decrypt_at_time dans les fonctions encrypt et decrypt, respectivement. Utilisez un TTL de 30 secondes et capturez l'exception potentielle (try/except InvalidToken as e) avec un log d'erreur en cas d'exception. Pour le temps, on utilisera int(time.time()).
 
 1. Remarquez vous une différence avec le chapitre précédent ?
 2. Maintenant soustrayez 45 au temps lors de l'émission. Que se passe t-il et pourquoi ? 
