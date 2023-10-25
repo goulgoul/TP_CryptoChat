@@ -1,114 +1,40 @@
-# TP secure chat
+# TP chat chiffré
 
-Ce TP consiste à sécuriser un chat et à se prémunir de certaines attaques en utilisant des outils/methodes adaptées.
+Antoine Goulin, 5A GPSE et MSc IoT
 
-Les fichiers du TP s'organise comme ceci :
+## Introduction
 
-* source
-    * chat_client.py : classe servant le client au chat
-    * chat_server.py : classe servant de serveur au chat
-    * generic_callback.py : classe utilisée par le client et envoyé au serveur permettant de récupérer les messages
-    * basic_gui.py : client graphique du chat, repose du ChatClient
-* ANSWERS.md : contient vos réponses aux questions de TP
-* README.md : donnes les consignes
-
-Même si la base du TP se fera à partir de source/basic_gui.py, soyez curieux ! 
-
-## Coding rules
-
-Le code devra respecter un certain nombre de règles (arbitraires) pour ne pas perdre de point :
-
-- Le code doit être commenté
-- Les noms des fonctions et de variables s'écrivent en en snake case (nom_de_fonction)
-- Les noms de constantes s'écrivent en snake case majuscule (NOM_DE_CONSTANTES)
-- Les noms de classe s'écrivent en camel case (MaClasse)
-- Les noms de fichiers reprennent le nom de la classe en snake case minuscule (ma_classe)
-- Pas de valeurs littérales dans le code, utilisez toujours des constantes pour les expliciter
-- Une classe, un fichier
-- Une fonction ne doit pas dépasser 20 lignes
-- Pas plus de deux imbrications de bloc
-- Utilisez des variable intermédiaires lors d'enchainement de fonction. Exemple à ne pas faire : x = y(z(w(g,h,j,k)))
-- Utilisez les log (self._log) plutôt que les print()
-- Utilisez Github pour y mettre votre projet
-
-Globalement : Plus je comprends ce que vous avez fait, plus j'ai envie de mettre des points ... et réciproquement.
-
-## Prérequis
-
-Vous devez être sous un dérivé de Debian (Ubuntu, xubuntu, etc), avoir python3 à jours et avoir installer avec pip3 les bibliothèques suivantes :
-
-- pyro5
-- cryptography
-
-Il est recommandé d'utiliser un IDE comme Code avec de l'autocomplétion; Si toutefois vous être plus à l'aise avec d'autres outils (vim, emacs, etc), vous pouvez parfaitement les utiliser.
-
-## Prise en main
-
-Ouvrez trois terminaux et lancez les commandes suivantes :
-
-- python3 source/chat_server.py
-- python3 source/basic_gui.py
-- python3 source/basic_gui.py
-
-Vous aurez alors un serveur fonctionnel et deux clients graphiques. Connectez vous (file->connect) en changeant le nom dans les deux clients (défaut : foo) et échangez quelques messages.
-
-1. Comment s'appelle cette topologie ?
-2. Que remarquez vous dans les logs ? 
-3. Pourquoi est-ce un problème et quel principe cela viole t-il ?
-4. Quelle solution la plus **simple** pouvez-vous mettre en place pour éviter cela ? Détaillez votre réponse.
+1. Ce service a une topologie client-serveur
+2. Les messages suivants peuvent être lus depuis le serveur :
+INFO:ChatServer:gauche send message : qsdfqsdfqsdf
+INFO:ChatServer:message send to droite
+3. Le contenu des messages envoyés sont écrits en clair dans les logs, le principe de confidentialité est donc violé
+4. La solution la plus simple pour éviter cela est des chiffrer les messages 
 
 ## Chiffrement
 
+5. La fonction `os.urandom()` est un bon choix pour la cryptographie car, contrairement à `os.random()`, qui requiert une graine et génère une sortie pseudo-aléatoire, elle se base sur un grand nombre de facteurs imprévisibles (comme la fréquence des frappes de clavier de l'utilisateur), sans pour autant se baser sur une source de bruit physique (tension amplifiée d'une broche analogique flottante).
 
-Dans cette partie, vous allez mettre en place l'algorithme AES (CTR) pour chiffrer la communication entre les différents interlocuteurs. Pour réaliser cela, vous allez vous baser sur la bibliothèque *cryptography*. Elle contients tous les éléments donc vous allez avoir besoins : AES, pkcs7, PBKDF2HMAC. La documentation dispose de toutes les informations nécessaires ainsi que des exemples pour vous aider.
+6. Les primitives cryptographiques sont dangereuses car elles proviennent de modules dits "hazardous", potentiellement peu sécurisés en soi ou dont l'implémentation requiert plus de connaissances sur les outils que l'on utilise.
 
-Vous aurez à dériver la classe BasicGUI pour créer la classe CipheredGUI. Il vous faudra faire les modifications suivantes :
+7. Un serveur malveillant, aussi chiffré puisse-t-il être, peut tout-de-même collecter diverses données sur les utilisateurs et leurs activités dans le but de leur proposer de la publicité ciblée. De plus, rien n'empêcherait un serveur de contenir un virus envoyé à travers les échanges entre utilisateurs, notamment au sein de fichiers comme des images (ce qui s'est déjà vu plusieurs fois sur WhatsApp notamment).
 
-- Surcharger le constructeur pour y inclure le champ self._key qui contiendra la clef de chiffrement (default : None)
-- Surcharger la fonction _create_connection_window() pour y inclure un champ password
-- Surcharger la fonction run_chat() pour y inclure la récupération du password et faire la dérivation de clef (self._key)
-- Créer une fonction encrypt(), prenant une string et retournant un typle de bytes (iv, encrypted)
-- Créer une fonction decrypt(), prenant un tuple en paramètre et retournant une string utf8
-- Surcharger les fonctions send()/recv() pour y faire intervenir encrypt() et decrypt(), respectivement.
-
-Points d'attention :
-
-- Le chiffrement par bloc implique une taille multiple de la taille du bloc (symetrical padding, pkcs7)
-- La taille de la clef doit être de 16 bytes (Key stretching, key derivations functions, PBKDF2HMAC)
-- Toutes ces opérations se font sur des octets; par défaut, les strings en python sont en utf8 : bytes(x, "utf8") pour avoir des octets
-- Pour passer d'un type bytes à une string il faut appeler str(x, "utf8")
-- Serpent, la bibliothèque de serialisation ne transmets pas directement les bytes mais un dict contenant une clef data et une clef encoding. Pour transformer cela en bytes, il faut utiliser serpent.tobytes (avec l'import adapté).
-- L'aes ici à une taille de clef et de bloc 128 bits (16 bytes).
-- Pour la dérivation de la clef, un salt constant sera suffisant pour le TP
-
-1. Est ce que urandom est un bon choix pour de la cryptographie ? Pourquoi ?
-2. Pourquoi utiliser ses primitives cryptographiques peut être dangereux ?
-3. Pourquoi malgré le chiffrement un serveur malveillant peut il nous nuire encore ?
-4. Quelle propriété manque t-il ici ?
+8.
 
 ## Authenticated Symetric Encryption
 
-Pour être sûr que le message n'a pas été altéré, il faut mettre en place un chiffrement avec un HMAC. La bibliothèque *cryptography* contient une solution adaptée : le module Fernet. A partir d'une clef de 32 octets (format base64) il permet de chiffrer/et dechiffrer tout en étant sûr de l'intégrité du message. Pour généré la clef de 32 bits à partir du password, vous pouvez utiliser dans le cadre du TP la fonction de hashage SHA256.
+9. Fernet est moins risqué que les modules hazmat car son implémentation est plus sécurisée et plus simple à écrire.
 
-Dérivé la classe CipheredGUI pour créer FernetGUI. La seule modification portera sur la fonction encrypt/decrypt, ainsi que run_chat qui utilisera sha256().digest() + base64.b64encode() au lieu de PBKDF2HMAC.
+10. Sur un serveur malveillant, il est possible d'injecter du code comme du SQL ou du Javascript à l'aide d'attaques XSS (sur internet dans les formulaires) ou d'autres méthodes pour les serveurs comme celui que nous avons développé ici.
 
-1. Pourquoi Fernet est moins risqué que le précédent chapitre en terme d'implémentation ?
-2. Un serveur malveillant peut néanmoins attaquer avec des faux messages, déjà utilisé dans le passé. Comment appel t-on cette attaque ?
-3. Quelle méthode **simple** permet de s'en affranchir ?
+11. Pour s'affranchir d'attaques similaires, une bonne méthode consiste à changer le format du message récupéré par le client. Par exemple, dans le cas d'une attaque XSS stockée en Javascript, transformer le script `<script>alert("BONJOUR VOUS ÊTES EN TRAIN DE VOUS FAIRE PIRATER")</script>` en chaîne de caractètes qui ne seront que cités réduit le script à l'état de simple citation, le neutralisant entièrement.
 
 ## TTL
 
-Vous avez utilisé deux methodes fournies par la classe Fernet : encrypt et decrypt. Un autre jeu de methode permet d'améliorer la robustesse en donnant une durée de vie au message (Time To Live, TTL). Si un message dépasse la durée de vie, il est ignoré au moment du décodage.
+12. Dans l'utilisation, cette dernière version du GUI de chat est exactement la même que les autres.
 
-Dérivez la classe FernetGUI en TimeFernetGUI et utiliser les fonctions encrypt_at_time et decrypt_at_time dans les fonctions encrypt et decrypt, respectivement. Utilisez un TTL de 30 secondes et capturez l'exception potentielle (try/except InvalidToken as e) avec un log d'erreur en cas d'exception. Pour le temps, on utilisera int(time.time()).
+13. Si l'on soustrait 45 au temps d'émission du message, la réception considère que le TTL du message est dépassé. Par conséquent, l'exception InvalidToken est levée.
 
-1. Remarquez vous une différence avec le chapitre précédent ?
-2. Maintenant soustrayez 45 au temps lors de l'émission. Que se passe t-il et pourquoi ? 
-3. Est-ce efficace pour se protéger de l'attaque du précédent chapitre ? 
-4. Quelle(s) limite(s) cette solution peut rencontrer dans la pratique ?
+14. Si une injection de code est une attaque lente, alors ajouter un TTL est une solution permettant de la pallier.
 
-## Regard critique
-
-J'ai pris des raccourcis, pris des décisions arbitraires et utilisé des bibliothèques tiers. Ai-je laissé des vulnérabilités ? 
-*PAR EXEMPLE LE MANQUE DE TRNG* 
-A vous maintenant de trouver ce qui ne va pas, de justifier votre propos et de proposer une alternative. Ce n'est pas tant la quantité de point que vous trouverez que la pertinence de votre analyse qui vous permettera de décrocher des points.
+15. Une limite de cette solution est que si l'attaquant trouve un moyen de rendre son attaque rapide ou que la connexion entre les utilisateurs est trop lente, des situations indésirables se produisent. Dans le premier cas, l'attaque passe inaperçue tandis que dans le second, l'utilisateur perd la connexion alors que son usage était normal.
