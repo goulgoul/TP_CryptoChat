@@ -23,7 +23,7 @@ INFO:ChatServer:message send to droite
 
 9. Fernet est moins risqué que les modules hazmat car son implémentation est plus sécurisée et plus simple à écrire.
 
-10. Un serveur malveillant peut attaquer avec des messages d'arnaque, comme le font certains en nous prévenant que notre colis a un problème à la douane et qu'il faut le récupérer en payant des taxes, par exemple. Il existe force autres types d'arnaques similaires. Le phishing pourraît être un cité mais on en retrouve sur les serveurs de mails. Enfin il est possible d'injecter du code malveillant comme du SQL ou du Javascript à l'aide d'attaques XSS (sur internet dans les formulaires) ou d'autres méthodes pour les serveurs comme celui que nous avons développé ici.
+10. Sur un serveur malveillant, il est possible d'injecter du code comme du SQL ou du Javascript à l'aide d'attaques XSS (sur internet dans les formulaires) ou d'autres méthodes pour les serveurs comme celui que nous avons développé ici.
 
 11. Pour s'affranchir d'attaques similaires, une bonne méthode consiste à changer le format du message récupéré par le client. Par exemple, dans le cas d'une attaque XSS stockée en Javascript, transformer le script `<script>alert("BONJOUR VOUS ÊTES EN TRAIN DE VOUS FAIRE PIRATER")</script>` en chaîne de caractètes qui ne seront que cités réduit le script à l'état de simple citation, le neutralisant entièrement.
 
