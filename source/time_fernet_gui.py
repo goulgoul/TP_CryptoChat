@@ -3,6 +3,8 @@ from cryptography.fernet import Fernet, InvalidToken
 import time
 import logging
 
+DUREE_DE_VIE_MESSAGE = 30
+
 class TimeFernetGUI(FernetGUI):
 
     def __init__(self) -> None:
@@ -18,7 +20,7 @@ class TimeFernetGUI(FernetGUI):
         decryptor = Fernet(self._key)
         message = ""
         try:
-            message = decryptor.decrypt_at_time(frame, current_time=int(time.time()), ttl=30)
+            message = decryptor.decrypt_at_time(frame, current_time=int(time.time()), ttl=DUREE_DE_VIE_MESSAGE)
 
         except InvalidToken as e:
             logging.error(f"InvalidToken exception at {int(time.time())}")

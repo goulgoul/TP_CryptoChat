@@ -28,3 +28,11 @@ INFO:ChatServer:message send to droite
 11. Pour s'affranchir d'attaques similaires, une bonne méthode consiste à changer le format du message récupéré par le client. Par exemple, dans le cas d'une attaque XSS stockée en Javascript, transformer le script `<script>alert("BONJOUR VOUS ÊTES EN TRAIN DE VOUS FAIRE PIRATER")</script>` en chaîne de caractètes qui ne seront que cités réduit le script à l'état de simple citation, le neutralisant entièrement.
 
 ## TTL
+
+12. Dans l'utilisation, cette dernière version du GUI de chat est exactement la même que les autres.
+
+13. Si l'on soustrait 45 au temps d'émission du message, la réception considère que le TTL du message est dépassé. Par conséquent, l'exception InvalidToken est levée.
+
+14. Si une injection de code est une attaque lente, alors ajouter un TTL est une solution permettant de la pallier.
+
+15. Une limite de cette solution est que si l'attaquant trouve un moyen de rendre son attaque rapide ou que la connexion entre les utilisateurs est trop lente, des situations indésirables se produisent. Dans le premier cas, l'attaque passe inaperçue tandis que dans le second, l'utilisateur perd la connexion alors que son usage était normal.
