@@ -23,7 +23,8 @@ KDF_NB_ITERATIONS = 480000
 @var KDF The key derivation function used to creae the private key for the encrypt phase.
 @param algorithm The chosen hashing algorithm, namely SHA256.
 @param salt Has been set to a constant, but it is usually random
-@param iterations The number of iterations of the kdf loop """
+@param iterations The number of iterations of the kdf loop
+"""
 KDF = PBKDF2HMAC(
         algorithm = hashes.SHA256(),
         length = KEY_LENGTH,
@@ -31,13 +32,12 @@ KDF = PBKDF2HMAC(
         iterations = KDF_NB_ITERATIONS
         )
 
-
+"""
+@class CipheredGUI 
+@brief A class that extends the BasicGUI class by adding a cryptography layer on top of the messaging functionality. The encrypting is done with the help of AES128 and PBKDF2HMAC key derivation function.
+@extends BasicGUI
+""" 
 class CipheredGUI(BasicGUI):
-
-    """@class CipheredGUI 
-    @brief A class that extends the BasicGUI class by adding a cryptography layer on top of the messaging functionality. The encrypting is done with the help of AES128 and PBKDF2HMAC key derivation function.
-    """ 
-
     """
     @fn __init__()
     @brief The initialisation functionality
